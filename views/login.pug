@@ -1,0 +1,40 @@
+extends layout
+
+block content
+  .container
+    form#formsend
+      h1.h3.mb-3.fw-normal Please sign in
+      .form-floating
+        label(for='floatingInput') Email address
+        input.form-control#email(type='email' placeholder='name@example.com')
+      .form-floating
+        label(for='floatingPassword') Password
+        input.form-control#password(type='password' placeholder='Password')
+      br
+      a.text-centerr(href ='/register') register
+      br
+      br
+      button#submit.w-100.btn.btn-lg.btn-primary(type='submit') Sign in
+  script.
+    $(document).ready(function(){
+      $( "#formsend" ).submit(function( event ) {
+        event.preventDefault();
+        let form = {
+          email : $( "#email" ).val(),
+          password : $( "#password" ).val(),
+        }
+        $.ajax({
+          type:    "POST",
+          url:     "/api/user/login",
+          data:    form,
+          success: function(data) {
+            location.reload()
+          },
+          // vvv---- This is the new bit
+          error:   function(data) {
+            console.log(data.responseJSON)
+            alert(data.responseJSON.msg);
+          }
+        });
+      });
+    })

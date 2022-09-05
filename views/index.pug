@@ -1,0 +1,50 @@
+extends layout
+
+block content
+  .container
+    button.btn.btn-primary.mr-1(type='button') ฝาก
+    button.btn.btn-primary.mr-1(type='button') ถอน
+    button.btn.btn-primary.mr-1(type='button') โอน
+    button.btn.btn-danger.mr-1.float-right(type='button') logout
+    br
+    br
+    b AMOUNT : 
+    span#current_balance 0$
+    span $
+    br
+    br
+    table.table
+      thead
+        tr
+          th name
+          th action
+          th remain
+          th amount
+          th date
+      tbody
+        //- tr
+          td John
+          td Doe
+          td john@example.com
+        //- tr
+          td Mary
+          td Moe
+          td mary@example.com
+        //- tr
+          td July
+          td Dooley
+          td july@example.com
+  script.
+    $(document).ready(function(){
+      $.ajax({
+        type:    "POST",
+        url:     "/api/user/profile",
+        success: function(result) {
+          console.log(result)
+          $('#current_balance').html(result.data.current_balance)
+        },
+        error:   function(data) {
+          alert(data.responseJSON.msg);
+        }
+      });
+    })
